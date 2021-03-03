@@ -55,7 +55,7 @@ https://github.com/sweet-red/kubernetes.git
 - 启动成功后检查网卡是否绑定虚拟IP
 
 ## 安装Kubernetes集群
-### 准备镜像
+### 准备镜像（官网下载）
 ```bash
 #需要如下镜像，外网下载后(需翻墙) docker load -i 导入到本地
 k8s.gcr.io/kube-apiserver:v1.18.2
@@ -79,6 +79,7 @@ systemctl enable kubelet
 ```
 ### 初始化kubernetes集群
 首先在k8s-master1上初始化，然后再依次拷贝至k8s-master2、k8s-master3，前提是已经安装kubectl kubeadm和已导入镜像
+#### 官网下载的镜像初始化如下：
 ```bash
 # kubeadm-config.yaml：
 # 如果不是手动导入镜像加 imageRepository: registry.aliyuncs.com/google_containers 字段
@@ -104,6 +105,10 @@ mode: ipvs
 # 初始化k8s集群
 kubeadm init --config kubeadm-config.yaml
 
+```
+#### 使用国内镜像初始化如下：
+```bash
+kubeadm init --kubernetes-version=v1.18.2 --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address=192.168.0.199 --image-repository registry.aliyuncs.com/google_containers
 ```
 
 如下表示初始化成功，记住相关信息后续节点加入需用到：
