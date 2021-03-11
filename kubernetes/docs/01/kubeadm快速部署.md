@@ -11,7 +11,7 @@
 
 ## 安装所需文件
 ```bash
-# 安装所需脚本、yaml等文件都在如下仓库
+# 安装所需脚本
 https://github.com/sweet-red/kubernetes.git
 ```
 ## 系统初始化
