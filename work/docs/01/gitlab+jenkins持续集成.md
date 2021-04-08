@@ -98,7 +98,65 @@ git commit -m "add"
 git push -u origin master
 ```
 ## Jenkins安装及集成环境
-### 持续集成流程
+## 持续集成流程
 ![](./image/jenkins1.png)
 
-###
+## Jenkins安装
+### 安装JDK
+
+```bash
+## 安装
+rpm -ivh jdk-8u201-linux-x64.rpm
+```
+
+- 获取jenkins
+
+```bash
+## 按提示配置yum源安装
+https://pkg.jenkins.io/redhat-stable/
+```
+
+### jenkins基本配置
+
+```bash
+
+vim /etc/sysconfig/jenkins
+## 修改jenkins工作目录
+JENKINS_HOME="/data/jenkins"
+
+## 修改用户和端口，默认为jenkins及8080端口
+JENKINS_USER="root"
+JENKINS_PORT="8888"
+
+## 启动jenkins
+systemctl start jenkins
+```
+
+### 跳过插件安装
+>因为Jenkins插件需要连接默认官网下载，速度非常慢，而且经过会失败，所以我们暂时先跳过插件安装。
+
+![](./image/jenkins_chajian.png)
+
+## Jenkins插件地址管理
+### 修改插件地址
+- Jenkins->Manage Jenkins->Manage Plugins，点击Available 等待加载完成。
+- 这样做是为了把Jenkins官方的插件列表下载到本地，接着修改地址文件，替换为国内插件地址
+- 替换插件地址:
+
+```bash
+##
+cd /data/jenkins/updates/
+
+sed -i 's/http:\/\/updates.jenkinsci.org\/download/https:\/\/mirrors.tuna.tsinghua.edu.cn\/jenkins/g' default.json
+sed -i 's/http:\/\/www.google.com/https:\/\/www.baidu.com/g' default.json
+```
+- Jenkins->Manage Jenkins->Manage Plugins，点击Advanced,把Updata Site改为国内地址
+`https://mirrors.tuna.tsinghua.edu.cn/jenkins/updates/update-center.json`
+
+![](./image/jenkins_chajian2.png)
+
+- 重启jenkins生效
+
+### 安装汉化插件
+- Jenkins->Manage Jenkins->Manage Plugins，点击Available，搜索"Chinese"
+- 安装完成重启生效
